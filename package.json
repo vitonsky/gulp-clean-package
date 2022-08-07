@@ -1,0 +1,20 @@
+{
+  "name": "gulp-clean-package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cleanPackageJson.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitonsky/gulp-clean-package.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vitonsky/gulp-clean-package/issues"
+  },
+  "homepage": "https://github.com/vitonsky/gulp-clean-package#readme"
+}
