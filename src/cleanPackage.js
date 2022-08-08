@@ -1,7 +1,7 @@
 const through = require('through2');
 const PluginError = require('plugin-error');
 
-const PLUGIN_NAME = 'gulp-clean-packagejson';
+const PLUGIN_NAME = 'gulp-clean-package';
 
 /**
  * Props which will not removed
@@ -23,7 +23,7 @@ const defaultIgnoredProps = [
 /**
  * Plugin for clean package.json file
  */
-module.exports = function(options = {}) {
+module.exports = function (options = {}) {
 	if (typeof options !== 'object') {
 		throw new PluginError(PLUGIN_NAME, 'Options must be is object');
 	}
@@ -55,7 +55,7 @@ module.exports = function(options = {}) {
 		beautify = true,
 	} = options;
 
-	return through.obj(function(file, encoding, callback) {
+	return through.obj(function (file, encoding, callback) {
 		// Skip
 		if (file.isNull()) {
 			return callback(null, file);
