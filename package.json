@@ -5,7 +5,15 @@
 		"type": "git",
 		"url": "git+https://github.com/vitonsky/gulp-clean-package.git"
 	},
-	"keywords": [],
+	"keywords": [
+		"gulpplugin",
+		"gulp",
+		"package",
+		"packagejson",
+		"build",
+		"clean",
+		"properties"
+	],
 	"license": "Apache-2.0",
 	"bugs": {
 		"url": "https://github.com/vitonsky/gulp-clean-package/issues"
