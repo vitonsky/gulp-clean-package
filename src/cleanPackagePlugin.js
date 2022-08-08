@@ -4,15 +4,16 @@ const PluginError = require('plugin-error');
 const PLUGIN_NAME = 'gulp-clean-package';
 
 /**
- * Props which will not removed
+ * Props to leave in package.json
  */
-const defaultIgnoredProps = [
+const defaultPublicProperties = [
 	'name',
 	'version',
 	'description',
 	'keywords',
 	'author',
 	'license',
+	'bugs',
 	'homepage',
 	'repository',
 	'dependencies',
@@ -28,32 +29,53 @@ module.exports = function (options = {}) {
 		throw new PluginError(PLUGIN_NAME, 'Options must be is object');
 	}
 
+	// Options
 	const {
 		/**
 		 * New props. It will overwrite exists
 		 */
-		addonProps = {},
+		additionalProperties = {},
 
 		/**
 		 * This props will not remove
 		 */
-		ignorePropsNames = [],
+		publicProperties = [],
 
 		/**
 		 * This props will remove anyway
 		 */
-		removePropsNames = [],
+		propertiesToRemove = [],
 
 		/**
 		 * Disable default list of ignored props
 		 */
-		noDefaults = false,
+		noUseDefaultProperties = false,
 
 		/**
-		 * Disable beautify
+		 * Style of spaces for JSON result
 		 */
-		beautify = true,
+		indentStyle = '\t',
 	} = options;
+
+	const propsToKeep = noUseDefaultProperties
+		? publicProperties
+		: [...defaultPublicProperties, ...publicProperties];
+
+	const transformObject = (sourceObject) => {
+		const newObject = { ...sourceObject };
+
+		// Remove unnecessary props
+		Object.keys(newObject).forEach((name) => {
+			const shouldBeKeeps = propsToKeep.includes(name) && !propertiesToRemove.includes(name);
+
+			if (!shouldBeKeeps) {
+				delete newObject[name];
+			}
+		});
+
+		// Add props
+		return { ...newObject, ...additionalProperties };
+	};
 
 	return through.obj(function (file, encoding, callback) {
 		// Skip
@@ -61,26 +83,6 @@ module.exports = function (options = {}) {
 			return callback(null, file);
 		}
 
-		const ignoredProps = noDefaults
-			? ignorePropsNames
-			: [...ignorePropsNames, ...defaultIgnoredProps];
-
-		const handleData = (sourceObject) => {
-			const newObject = { ...sourceObject };
-
-			// Remove unnecessary props
-			Object.keys(newObject).forEach((name) => {
-				const isIgnoredProperty = ignoredProps.indexOf(name) !== -1;
-				const isPropertyToRemove =
-					removePropsNames.indexOf(name) !== -1;
-
-				if (!isIgnoredProperty || isPropertyToRemove) {
-					delete newObject[name];
-				}
-			});
-
-			return { ...newObject, ...addonProps };
-		};
 
 		if (file.isStream()) {
 			// TODO: support streams
@@ -94,14 +96,17 @@ module.exports = function (options = {}) {
 			//file.contents = file.contents.pipe(...
 			//return callback(null, file);
 		} else if (file.isBuffer()) {
-			const fileData = JSON.parse(file.contents.toString());
-			const handledData = handleData(fileData);
+			const rawString = file.contents.toString('utf-8');
+			const packageJson = JSON.parse(rawString);
+
+			const transformedJson = transformObject(packageJson);
 
 			const stringifyData = JSON.stringify(
-				handledData,
+				transformedJson,
 				null,
-				beautify ? '\t' : null,
+				indentStyle,
 			);
+
 			file.contents = Buffer.from(stringifyData);
 
 			return callback(null, file);
