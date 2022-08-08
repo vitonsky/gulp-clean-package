@@ -2,13 +2,13 @@
 	"name": "gulp-clean-package",
 	"version": "0.0.1",
 	"repository": {
-	  "type": "git",
-	  "url": "git+https://github.com/vitonsky/gulp-clean-package.git"
+		"type": "git",
+		"url": "git+https://github.com/vitonsky/gulp-clean-package.git"
 	},
 	"keywords": [],
 	"license": "Apache-2.0",
 	"bugs": {
-	  "url": "https://github.com/vitonsky/gulp-clean-package/issues"
+		"url": "https://github.com/vitonsky/gulp-clean-package/issues"
 	},
 	"homepage": "https://github.com/vitonsky/gulp-clean-package#readme",
 	"scripts": {
@@ -32,5 +32,9 @@
 		"prettier": "^2.6.2",
 		"ts-jest": "^28.0.2",
 		"typescript": "^4.6.4"
+	},
+	"dependencies": {
+		"plugin-error": "^2.0.0",
+		"through2": "^4.0.2"
 	}
 }
