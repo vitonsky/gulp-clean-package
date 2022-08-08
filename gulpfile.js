@@ -17,7 +17,9 @@ function copyMetaFiles() {
 		// Clean package.json
 		gulp.src(['package.json']).pipe(cleanPackageJson()),
 		// Replace relative links to github links
-		gulp.src(['README.md', "LICENSE"]).pipe(replace(/\.\/docs/g, gitPublicMainPath + '/')),
+		gulp
+			.src(['README.md', 'LICENSE'])
+			.pipe(replace(/\.\/docs/g, gitPublicMainPath + '/')),
 	).pipe(gulp.dest(buildDir));
 }
 

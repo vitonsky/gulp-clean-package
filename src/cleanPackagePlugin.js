@@ -24,7 +24,7 @@ const defaultPublicProperties = [
 /**
  * Plugin for clean package.json file
  */
-module.exports = function (options = {}) {
+module.exports = function(options = {}) {
 	if (typeof options !== 'object') {
 		throw new PluginError(PLUGIN_NAME, 'Options must be is object');
 	}
@@ -66,7 +66,8 @@ module.exports = function (options = {}) {
 
 		// Remove unnecessary props
 		Object.keys(newObject).forEach((name) => {
-			const shouldBeKeeps = propsToKeep.includes(name) && !propertiesToRemove.includes(name);
+			const shouldBeKeeps =
+				propsToKeep.includes(name) && !propertiesToRemove.includes(name);
 
 			if (!shouldBeKeeps) {
 				delete newObject[name];
@@ -77,20 +78,16 @@ module.exports = function (options = {}) {
 		return { ...newObject, ...additionalProperties };
 	};
 
-	return through.obj(function (file, encoding, callback) {
+	return through.obj(function(file, encoding, callback) {
 		// Skip
 		if (file.isNull()) {
 			return callback(null, file);
 		}
 
-
 		if (file.isStream()) {
 			// TODO: support streams
 			// file.contents is a Stream - https://nodejs.org/api/stream.html
-			this.emit(
-				'error',
-				new PluginError(PLUGIN_NAME, 'Streams not supported!'),
-			);
+			this.emit('error', new PluginError(PLUGIN_NAME, 'Streams not supported!'));
 
 			// or, if you can handle Streams:
 			//file.contents = file.contents.pipe(...
@@ -101,11 +98,7 @@ module.exports = function (options = {}) {
 
 			const transformedJson = transformObject(packageJson);
 
-			const stringifyData = JSON.stringify(
-				transformedJson,
-				null,
-				indentStyle,
-			);
+			const stringifyData = JSON.stringify(transformedJson, null, indentStyle);
 
 			file.contents = Buffer.from(stringifyData);
 

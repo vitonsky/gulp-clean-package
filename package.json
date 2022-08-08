@@ -14,7 +14,7 @@
 	"scripts": {
 		"test": "jest",
 		"build": "gulp",
-		"prettify": "prettier --write \"{*,**/*}.{ts,tsx,js,jsx}\" && eslint --fix \"{*,**/*}.{ts,tsx,js,jsx}\"",
+		"prettify": "prettier --write \"{*,**/*}.{ts,tsx,js,jsx,json}\" && eslint --fix \"{*,**/*}.{ts,tsx,js,jsx}\"",
 		"packages:upgrade": "npx npm-check-updates -u",
 		"configure": "husky install",
 		"prepare": "npm run configure"
