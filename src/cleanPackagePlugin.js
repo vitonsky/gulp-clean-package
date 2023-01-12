@@ -13,6 +13,7 @@ const defaultPublicProperties = [
 	'keywords',
 	'author',
 	'license',
+	'bin',
 	'bugs',
 	'homepage',
 	'repository',
@@ -24,7 +25,7 @@ const defaultPublicProperties = [
 /**
  * Plugin for clean package.json file
  */
-module.exports = function(options = {}) {
+module.exports = function (options = {}) {
 	if (typeof options !== 'object') {
 		throw new PluginError(PLUGIN_NAME, 'Options must be is object');
 	}
@@ -78,7 +79,7 @@ module.exports = function(options = {}) {
 		return { ...newObject, ...additionalProperties };
 	};
 
-	return through.obj(function(file, encoding, callback) {
+	return through.obj(function (file, encoding, callback) {
 		// Skip
 		if (file.isNull()) {
 			return callback(null, file);
